@@ -5,12 +5,16 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const mode = process.env.NODE_ENV || 'development'
 const devtool = mode === 'development' ? 'cheap-module-eval-source-map' : 'cheap-module-source-map'
 
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 module.exports = {
   mode,
   devtool,
 
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: resolve('dist'),
     port: 8080,
     open: true
   },
@@ -18,7 +22,14 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: '[hash]_bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: resolve('dist')
+  },
+
+  resolve: {
+    extensions: ['.js', '.json'],
+    alias: {
+      '@': resolve('src')
+    }
   },
 
   module: {
@@ -40,8 +51,15 @@ module.exports = {
         }
       },
       {
-        test: /\.(ttf|eot|svg)$/,
-        use: 'file-loader'
+        test: /\.(woff2?|ttf|eot|svg)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+            limit: 8192
+          }
+        }
       },
       {
         test: /\.scss$/,
