@@ -3,7 +3,9 @@
 ```bash
 npm install
 
+# 开发
 npm run dev
 
-npm run build
+# 发布
+npm run package
 ```

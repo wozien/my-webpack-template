@@ -1,11 +1,12 @@
 {
-  "name": "my-webpack-template",
+  "name": "my-component",
   "version": "1.0.0",
   "description": "",
-  "private": true,
+  "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "package": "node ./publish.js"
   },
   "keywords": [],
   "author": "",
@@ -16,17 +17,24 @@
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.5",
     "clean-webpack-plugin": "^2.0.2",
+    "copy-webpack-plugin": "^5.0.4",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
+    "file-loader": "^4.0.0",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.12.0",
-    "file-loader": "^4.0.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
+    "vue-loader": "^15.7.1",
+    "vue-template-compiler": "^2.6.10",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.3.1"
+    "webpack-dev-server": "^3.3.1",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {
+    "vue": "^2.6.10"
   }
 }

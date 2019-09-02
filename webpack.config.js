@@ -1,39 +1,42 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-const mode = process.env.NODE_ENV || 'development'
-const devtool = mode === 'development' ? 'cheap-module-eval-source-map' : 'cheap-module-source-map'
+const mode = process.env.NODE_ENV || 'development';
+const isPublish = process.env.IS_PUB || false;
 
 function resolve(dir) {
-  return path.join(__dirname, dir)
+  return path.join(__dirname, dir);
 }
 
-module.exports = {
+const webpackConfig = {
   mode,
-  devtool,
 
   devServer: {
-    contentBase: resolve('dist'),
-    port: 8080,
-    open: true
+    port: 8080
   },
 
-  entry: './src/index.js',
+  entry: './demo/index.js',
+
   output: {
-    filename: '[hash]_bundle.js',
-    path: resolve('dist')
+    filename: '[name].js',
+    path: resolve('demo-dist')
   },
 
   resolve: {
-    extensions: ['.js', '.json'],
+    extensions: ['.js', '.vue'],
     alias: {
-      '@': resolve('src')
+      components: resolve('src/components')
     }
   },
 
   module: {
     rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -78,10 +81,16 @@ module.exports = {
     ]
   },
 
-  plugins: [
-    new CleanWebpackPlugin(),
+  plugins: [new CleanWebpackPlugin(), new VueLoaderPlugin()]
+};
+
+// 不是发布打包
+if (!isPublish) {
+  webpackConfig.plugins.push(
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: 'index.html'
     })
-  ]
+  );
 }
+
+module.exports = webpackConfig;
